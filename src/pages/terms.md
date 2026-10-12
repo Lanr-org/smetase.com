@@ -15,7 +15,8 @@ Smetase combines AI guidance with advisors to help students explore studying abr
 
 ## 2. Your account
 
-- You must be 18 or older and give accurate information.
+- Smetase is for people aged 16 and over. If you are under 18, you need your parent or guardian's permission to use it. When you click "I agree" in the app or on Telegram, you confirm this.
+- Give accurate information about yourself.
 - You sign in with Google or Telegram. You are responsible for what happens on your account, so tell us quickly if you think someone else has used it.
 - We may suspend or close accounts that break these terms or put others at risk.
 

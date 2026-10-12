@@ -25,6 +25,7 @@ We are responsible for your data under the Nigeria Data Protection Act 2023 (NDP
 - Programme matches, your shortlist, your chosen programme and your Study Plan.
 - Technical data such as IP address, browser type and error logs, needed to keep the service secure and working.
 - Sign-in sessions, stored as secure tokens. We never store raw tokens in plain text.
+- When you agreed to these terms, and which version.
 
 We do not ask for payment card details or identity documents.
 
@@ -79,7 +80,7 @@ We use HTTPS, hashed tokens, short-lived sessions, role-based access (staff and 
 
 ## 9. Age
 
-Smetase is for people aged 18 and over.
+Smetase is for people aged 16 and over. If you are under 18, you need your parent or guardian's permission to use it, and you confirm this when you click "I agree" before using Smetase. If a parent or guardian wants us to delete a child's data, email [privacy@smetase.com](mailto:privacy@smetase.com).
 
 ## 10. Cookies
 
