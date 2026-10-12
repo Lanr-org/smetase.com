@@ -1,0 +1,158 @@
+---
+interface Props {
+  frontmatter: { title: string; description: string; updated: string }
+}
+const { title, description, updated } = Astro.props.frontmatter
+const pageTitle = `${title} · Smetase`
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500&family=Instrument+Sans:wght@400;600&family=Martian+Mono:wght@400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/">Smetase</a>
+    </header>
+    <main>
+      <p class="eyebrow">Last updated {updated}</p>
+      <h1>{title}</h1>
+      <article>
+        <slot />
+      </article>
+    </main>
+    <footer>
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+      <a href="mailto:support@smetase.com">support@smetase.com</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  :global(html),
+  :global(body) {
+    margin: 0;
+    background: #0a0a0a;
+    color: #e5e5e5;
+  }
+  :global(body) {
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+  header,
+  main,
+  footer {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  header {
+    padding-top: 1.5rem;
+  }
+  .brand {
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #fafafa;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  main {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  .eyebrow {
+    margin: 0;
+    font-family: 'Martian Mono', ui-monospace, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #8a8a8a;
+  }
+  h1 {
+    margin: 0.75rem 0 2.5rem;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 6vw, 3rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: #fafafa;
+  }
+  article :global(h2) {
+    margin: 3rem 0 0.75rem;
+    font-family: 'Unbounded', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+    color: #fafafa;
+  }
+  article :global(p),
+  article :global(ul) {
+    margin: 0 0 1rem;
+  }
+  article :global(ul) {
+    padding-left: 1.25rem;
+  }
+  article :global(li) {
+    margin-bottom: 0.4rem;
+  }
+  article :global(strong) {
+    color: #fafafa;
+    font-weight: 600;
+  }
+  article :global(a),
+  footer a {
+    color: #fafafa;
+    text-underline-offset: 3px;
+  }
+  article :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+  }
+  article :global(th),
+  article :global(td) {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    border-bottom: 1px solid #262626;
+  }
+  article :global(th) {
+    font-weight: 600;
+    color: #fafafa;
+  }
+  footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
+    border-top: 1px solid #262626;
+    font-family: 'Martian Mono', ui-monospace, monospace;
+    font-size: 0.75rem;
+  }
+  footer a {
+    color: #a3a3a3;
+    text-decoration: none;
+  }
+  footer a:hover {
+    color: #fafafa;
+  }
+</style>

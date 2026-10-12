@@ -26,6 +26,10 @@ const description = 'Smetase helps students find the right school abroad. Coming
       <video src="/teaser.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Smetase teaser"></video>
       <h1>Smetase</h1>
       <p>Coming soon</p>
+      <nav>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+      </nav>
     </main>
   </body>
 </html>
@@ -67,5 +71,19 @@ const description = 'Smetase helps students find the right school abroad. Coming
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: #a3a3a3;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  nav a {
+    font-family: 'Martian Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    color: #737373;
+    text-decoration: none;
+  }
+  nav a:hover {
+    color: #fafafa;
   }
 </style>
