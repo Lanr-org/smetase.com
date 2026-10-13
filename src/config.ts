@@ -15,6 +15,10 @@ export const SOCIALS = [
   { name: 'Telegram', icon: 'telegram', url: TELEGRAM_URL },
 ]
 
+// Nigerian airports the departures board leaves from. Rows start on different ones and keep
+// rotating, so the board is about the whole country, not one city.
+export const ORIGINS = ['LOS', 'ABV', 'KAN', 'PHC', 'ENU', 'QOW', 'ILR', 'KAD', 'BNI', 'JOS']
+
 // Destinations on the departures board. `status` is what the board says for each one:
 // keep it true to what Smetase can actually handle today.
 export const DESTINATIONS = [

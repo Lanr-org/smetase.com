@@ -1,12 +1,13 @@
 ---
-// An airport departures board out of Lagos. Each destination's letters flip into place
-// and its flag spins in like a coin; the flags only get their colour once scrolled past.
-import { DESTINATIONS } from '../config'
+// A departures board out of Nigeria. Each row leaves from a different Nigerian airport and the
+// origins keep flipping, so every part of the country is on the board. Destination flags spin
+// in like a coin and only get their colour once scrolled past.
+import { DESTINATIONS, ORIGINS } from '../config'
 ---
 
 <section class="board" aria-labelledby="board-title">
   <h2 id="board-title" class="board__title display" data-split>
-    Leaving from <span class="light">Lagos.</span>
+    Leaving from <span class="light">anywhere in Nigeria.</span>
   </h2>
 
   <div class="board__panel" data-board>
@@ -18,7 +19,9 @@ import { DESTINATIONS } from '../config'
               <img src={`/flags/${d.flag}.svg`} alt="" width="64" height="64" loading="lazy" />
             </span>
             <span class="board__route">
-              <span class="flap" data-flap="LOS">LOS</span>
+              <span class="flap" data-flap={ORIGINS[i % ORIGINS.length]} data-origin={i}>
+                {ORIGINS[i % ORIGINS.length]}
+              </span>
               <span class="board__arrow" aria-hidden="true">→</span>
               <span class="flap" data-flap={d.airport}>{d.airport}</span>
             </span>
@@ -29,6 +32,7 @@ import { DESTINATIONS } from '../config'
       }
     </ol>
   </div>
+  <script type="application/json" data-origins set:html={JSON.stringify(ORIGINS)} />
 </section>
 
 <style>
@@ -166,6 +170,24 @@ import { DESTINATIONS } from '../config'
         })
       })
     }
+
+    // Every few seconds one row's origin flips to the next Nigerian airport.
+    const origins: string[] = JSON.parse(document.querySelector('[data-origins]')?.textContent || '[]')
+    const originCells = gsap.utils.toArray<HTMLElement>('[data-origin]')
+    let next = originCells.length
+    let turn = 0
+    let timer = 0
+    const rotate = () => {
+      const el = originCells[turn % originCells.length]
+      el.dataset.flap = origins[next % origins.length]
+      next++
+      turn++
+      flip(el, 0)
+    }
+    new IntersectionObserver(([entry]) => {
+      window.clearInterval(timer)
+      if (entry.isIntersecting) timer = window.setInterval(rotate, 1600)
+    }).observe(document.querySelector('[data-board]')!)
 
     rows.forEach((row, i) => {
       gsap.from(row.querySelector('[data-flag]'), {
