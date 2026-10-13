@@ -28,6 +28,20 @@ const description =
     <meta property="og:description" content={description} />
     <meta property="og:url" content="https://smetase.com" />
     <link rel="icon" href="/favicon.svg" />
+    <link rel="canonical" href="https://smetase.com/" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'Smetase',
+        url: 'https://smetase.com',
+        logo: 'https://smetase.com/favicon.svg',
+        email: 'hello@smetase.com',
+        description,
+      })}
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

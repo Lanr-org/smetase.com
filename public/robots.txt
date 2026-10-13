@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://smetase.com/sitemap-index.xml
