@@ -3,6 +3,8 @@ layout: ../layouts/Legal.astro
 title: Terms of Service
 description: The terms for using Smetase on the web and on Telegram.
 updated: 12 October 2026
+cutout: terms-cutout
+cutoutAlt: A young man in a suit smiling at his phone
 ---
 
 These terms govern your use of Smetase, run by Emmanuel Oyelowo, based in Lagos, Nigeria, with a small team ("Smetase", "we", "us"), on the web and on Telegram. By signing in or chatting with Smetase, you agree to them. If you don't agree, please don't use the service. Our [Privacy Policy](/privacy) explains how we handle your data.

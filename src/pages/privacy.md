@@ -3,6 +3,8 @@ layout: ../layouts/Legal.astro
 title: Privacy Policy
 description: What personal data Smetase collects, why, who sees it, and your rights.
 updated: 12 October 2026
+cutout: privacy-cutout
+cutoutAlt: A smiling man in a grey shirt with his arms folded
 ---
 
 Smetase is run by Emmanuel Oyelowo, based in Lagos, Nigeria, with a small team ("Smetase", "we", "us"). This policy explains what personal data we collect when you use Smetase on the web at [app.smetase.com](https://app.smetase.com) or on Telegram, why we collect it, who sees it, and the choices you have.

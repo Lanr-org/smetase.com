@@ -1,0 +1,848 @@
+---
+// A faithful copy of the student app (smetase-web AppPage: journey │ chat │ plan),
+// drawn at 1200×760 and scaled to fit. The product story drives it through `data-step`.
+import Logo from './Logo.astro'
+
+const stages = [
+  'Your profile',
+  'Explore programmes',
+  'Shortlist and choose',
+  'Apply',
+  'Offer and tuition',
+  'English test',
+  'Proof of funds',
+  'Visa',
+]
+---
+
+<div class="app-stage" data-app-stage>
+  <div class="app" data-app data-step="0" aria-hidden="true">
+    <div class="app__top">
+      <Logo dark height="18px" />
+      <div class="app__top-right">
+        <span class="app__link">Your study plan</span>
+        <span class="app__avatar">AO</span>
+      </div>
+    </div>
+
+    <div class="app__cols">
+      <!-- Journey -->
+      <aside class="app__journey">
+        <div class="next">
+          <p class="next__k">Next step</p>
+          <p class="next__t" data-next-title>Choose your programme</p>
+          <p class="next__d" data-next-desc>Compare your matches and pick the one you want.</p>
+          <span class="btn btn--sm">See matches</span>
+        </div>
+        <p class="rail__k">Your journey</p>
+        <ol class="rail">
+          {
+            stages.map((title, i) => (
+              <li class="rail__item" data-stage={i}>
+                <span class="rail__dot">
+                  <span class="rail__num">{i + 1}</span>
+                  <svg class="rail__tick" viewBox="0 0 16 16" width="12" height="12">
+                    <path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" />
+                  </svg>
+                </span>
+                <span class="rail__t">{title}</span>
+                <span class="badge">Now</span>
+              </li>
+            ))
+          }
+        </ol>
+      </aside>
+
+      <!-- Chat -->
+      <section class="app__chat">
+        <div class="chat__head">
+          <div>
+            <p class="chat__title">Chat with Smetase</p>
+            <p class="chat__sub">AI guide · ask for a real advisor any time</p>
+          </div>
+          <span class="chat__advisor" data-advisor-btn>Talk to an advisor</span>
+        </div>
+        <div class="chat__banner" data-banner>
+          We've told the Smetase team. An advisor will follow up here. You can keep chatting with the AI meanwhile.
+        </div>
+        <div class="chat__msgs">
+          <div class="msg msg--me" data-msg="1">I want a Masters in data science. My budget is about £20k.</div>
+          <div class="msg msg--ai" data-msg="2">
+            Here are 3 UK programmes that fit your budget and a September 2027 start. I've put them in your plan.
+          </div>
+          <div class="msg msg--me" data-msg="3">Which one gives me the best shot at a visa?</div>
+          <div class="typing" data-msg="typing"><i></i><i></i><i></i> Smetase is typing</div>
+          <div class="msg msg--ai" data-msg="4">
+            All three are licensed student sponsors on the UK Home Office register. Coventry is the cheapest and has a
+            January start as a backup.
+          </div>
+          <div class="msg-wrap" data-msg="5">
+            <span class="msg__name">Tunde · Smetase advisor</span>
+            <div class="msg msg--advisor">
+              Hi Ada, I've read your plan. Let's get your deposit and English test in order this month.
+            </div>
+          </div>
+        </div>
+        <div class="chat__input">
+          <span class="chat__field">Ask anything about studying abroad…</span>
+          <span class="chat__send">
+            <svg viewBox="0 0 24 24" width="18" height="18"
+              ><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" /></svg
+            >
+          </span>
+        </div>
+
+        <!-- Interview practice, slides over the chat -->
+        <div class="iv" data-interview>
+          <div class="iv__head">
+            <p class="chat__title">Visa interview practice</p>
+            <p class="chat__sub">Question 2 of 5</p>
+          </div>
+          <p class="iv__q">Why did you choose this university over one at home?</p>
+          <div class="iv__answer" data-iv-answer>
+            The course lets me specialise in machine learning for health, which no programme in Lagos offers yet. I plan
+            to bring that back to…
+          </div>
+          <div class="iv__fb" data-iv-feedback>
+            <div class="iv__score"><span data-iv-score>8</span><small>/10</small></div>
+            <p class="iv__tip">Good. Name one module that drew you in, and say what job it leads to at home.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Plan -->
+      <aside class="app__plan">
+        <p class="plan__k">Your matches</p>
+        <article class="card" data-card>
+          <div class="card__top">
+            <div>
+              <p class="card__school">Coventry University · Coventry, UK</p>
+              <p class="card__name">MSc Data Science and Computational Intelligence</p>
+            </div>
+            <div class="card__fit">
+              <span class="mono" data-fit>92</span>
+              <small>Fit</small>
+            </div>
+          </div>
+          <dl class="card__facts">
+            <div><dt>Tuition / year</dt><dd class="mono">£19,500</dd></div>
+            <div><dt>Duration</dt><dd>1 year</dd></div>
+            <div class="wide"><dt>Starts</dt><dd>September 2027 · January 2028</dd></div>
+          </dl>
+          <p class="card__source" data-source>
+            <svg viewBox="0 0 24 24" width="14" height="14"
+              ><path
+                d="M12 2l2.4 1.8 3-.2.9 2.9 2.5 1.7-1 2.8 1 2.8-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9L3.2 15.8l1-2.8-1-2.8 2.5-1.7.9-2.9 3 .2z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"></path><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.6"
+              ></path></svg
+            >
+            <span>Checked against the university's course page on 10 Oct 2026 · <b>See the page</b></span>
+          </p>
+          <ul class="card__reasons">
+            <li>Fits your £20k budget</li>
+            <li>Starts when you want to</li>
+            <li>Licensed student visa sponsor</li>
+          </ul>
+          <div class="scores" data-scores>
+            {
+              [
+                ['Programme fit', 94],
+                ['Budget', 97],
+                ['Intake', 100],
+                ['Visa', 78],
+              ].map(([label, value]) => (
+                <div class="scores__row">
+                  <span>{label}</span>
+                  <span class="scores__bar">
+                    <span style={`--w:${value}%`} />
+                  </span>
+                  <span class="mono">{value}</span>
+                </div>
+              ))
+            }
+          </div>
+          <div class="card__actions">
+            <span class="btn btn--sm">Choose this</span>
+            <span class="btn btn--sm btn--ghost">Shortlist</span>
+          </div>
+        </article>
+        <article class="card card--mini" data-card-2>
+          <div class="card__top">
+            <div>
+              <p class="card__school">University of Hertfordshire · Hatfield, UK</p>
+              <p class="card__name">MSc Data Science</p>
+            </div>
+            <div class="card__fit"><span class="mono">87</span><small>Fit</small></div>
+          </div>
+        </article>
+      </aside>
+    </div>
+
+    <!-- The course page the fee was read from -->
+    <div class="page" data-page>
+      <div class="page__bar"><i></i><i></i><i></i><span>University course page</span></div>
+      <div class="page__body">
+        <span class="sk" style="width:62%"></span>
+        <span class="sk" style="width:88%"></span>
+        <span class="sk" style="width:74%"></span>
+        <p class="page__quote">International students, full-time: <mark>£19,500</mark></p>
+        <span class="sk" style="width:80%"></span>
+        <span class="sk" style="width:56%"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .app-stage {
+    --s: 1;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1200 / 760;
+  }
+  /* Phones: one column at a time, chosen by the story step (see the script below). */
+  .app-stage.is-narrow {
+    aspect-ratio: 440 / 560;
+  }
+  .is-narrow .app {
+    width: 440px;
+    height: 560px;
+  }
+  .is-narrow .app__cols {
+    grid-template-columns: 100%;
+  }
+  .is-narrow .app__journey,
+  .is-narrow .app__plan {
+    display: none;
+    border: 0;
+  }
+  .is-narrow .app__chat {
+    display: flex;
+  }
+  .is-narrow .app[data-view='plan'] .app__plan,
+  .is-narrow .app[data-view='journey'] .app__journey {
+    display: flex;
+    flex-direction: column;
+  }
+  .is-narrow .app[data-view='journey'] .app__journey {
+    display: block;
+  }
+  .is-narrow .app[data-view='plan'] .app__chat,
+  .is-narrow .app[data-view='journey'] .app__chat {
+    display: none;
+  }
+  .is-narrow .page {
+    right: 24px;
+    left: 24px;
+    width: auto;
+    bottom: 40px;
+  }
+  .is-narrow .app__top-right .app__link {
+    display: none;
+  }
+  .app {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1200px;
+    height: 760px;
+    transform: scale(var(--s));
+    transform-origin: 0 0;
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.06),
+      0 30px 80px -20px rgba(10, 10, 10, 0.35),
+      0 0 0 1px rgba(10, 10, 10, 0.08);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.45;
+    display: flex;
+    flex-direction: column;
+  }
+  .mono {
+    font-family: var(--font-mono);
+  }
+  .app__top {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    padding: 0 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .app__top-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .app__avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 11px;
+  }
+  .app__cols {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 290px 1fr 380px;
+  }
+
+  /* Journey */
+  .app__journey {
+    border-right: 1px solid var(--line);
+    padding: 16px;
+    overflow: hidden;
+  }
+  .next {
+    border: 1px solid var(--ink);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 18px;
+  }
+  .next__k,
+  .rail__k,
+  .plan__k {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+  .next__t {
+    margin-top: 4px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .next__d {
+    margin: 2px 0 10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .rail__k {
+    padding: 0 4px 8px;
+  }
+  .rail {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .rail__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 4px;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 13.5px;
+  }
+  .rail__item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 17.5px;
+    top: 34px;
+    height: 12px;
+    width: 1px;
+    background: var(--line);
+  }
+  .rail__dot {
+    position: relative;
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    background: var(--paper);
+    transition:
+      background 0.4s,
+      color 0.4s,
+      border-color 0.4s;
+  }
+  .rail__tick {
+    position: absolute;
+    opacity: 0;
+    transform: scale(0.4);
+    transition:
+      opacity 0.3s,
+      transform 0.4s var(--ease-out);
+  }
+  .rail__item.is-done {
+    color: var(--ink);
+  }
+  .rail__item.is-done .rail__dot {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .rail__item.is-done .rail__num {
+    opacity: 0;
+  }
+  .rail__item.is-done .rail__tick {
+    opacity: 1;
+    transform: none;
+  }
+  .rail__item.is-done::after {
+    background: var(--ink);
+  }
+  .rail__item.is-current {
+    color: var(--ink);
+  }
+  .rail__item.is-current .rail__dot {
+    border: 2px solid var(--ink);
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .badge {
+    margin-left: auto;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0;
+  }
+  .rail__item.is-current .badge {
+    opacity: 1;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+  .btn--ghost {
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+
+  /* Chat */
+  .app__chat {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .chat__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .chat__title {
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .chat__sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .chat__advisor {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 500;
+    transition:
+      background 0.3s,
+      color 0.3s;
+  }
+  .chat__advisor.is-pressed {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .chat__banner {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    background: var(--subtle);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .chat__msgs {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 20px 18px;
+    overflow: hidden;
+  }
+  .msg {
+    max-width: 82%;
+    padding: 10px 16px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .msg--me {
+    align-self: flex-end;
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom-right-radius: 6px;
+  }
+  .msg--ai {
+    align-self: flex-start;
+    background: var(--subtle);
+    border-bottom-left-radius: 6px;
+  }
+  .msg-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .msg__name {
+    padding: 0 4px 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .msg--advisor {
+    border: 1px solid var(--ink);
+    border-bottom-left-radius: 6px;
+  }
+  .typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .typing i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: bounce 1s infinite;
+  }
+  .typing i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .typing i:nth-child(3) {
+    animation-delay: 0.3s;
+    margin-right: 6px;
+  }
+  @keyframes bounce {
+    0%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-4px);
+    }
+  }
+  .chat__input {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .chat__field {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: var(--muted);
+  }
+  .chat__send {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    opacity: 0.4;
+  }
+
+  .iv {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 0 0 24px;
+    background: var(--paper);
+    transform: translateX(102%);
+  }
+  .iv__head {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .iv__q {
+    padding: 8px 32px 0;
+    font-size: 26px;
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .iv__answer {
+    margin: 0 32px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    color: #3d3d3d;
+    font-size: 14px;
+    clip-path: inset(0 100% 0 0);
+  }
+  .iv__fb {
+    display: flex;
+    align-items: flex-start;
+    gap: 22px;
+    margin: 0 32px;
+    padding: 18px;
+    border-radius: 16px;
+    background: var(--subtle);
+    opacity: 0;
+  }
+  .iv__score {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 58px;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .iv__score small {
+    font-family: var(--font-sans);
+    font-size: 18px;
+    color: var(--muted);
+    letter-spacing: 0;
+  }
+  .iv__tip {
+    padding-top: 6px;
+    font-size: 14px;
+  }
+
+  /* Plan */
+  .app__plan {
+    border-left: 1px solid var(--line);
+    padding: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .card {
+    border: 1px solid var(--ink);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .card--mini {
+    border-color: var(--line);
+  }
+  .card__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card__school {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .card__name {
+    margin-top: 4px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .card__fit {
+    text-align: right;
+  }
+  .card__fit .mono {
+    display: block;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .card__fit small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .card__facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 14px 0 0;
+    font-size: 12px;
+  }
+  .card__facts .wide {
+    grid-column: span 2;
+  }
+  .card__facts dt {
+    color: var(--muted);
+  }
+  .card__facts dd {
+    margin: 2px 0 0;
+    font-size: 13.5px;
+  }
+  .card__source {
+    position: relative;
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    padding: 6px 8px;
+    margin-left: -8px;
+    margin-right: -8px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .card__source svg {
+    flex: none;
+    margin-top: 2px;
+    color: var(--ink);
+  }
+  .card__source b {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .card__reasons {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+    font-size: 13.5px;
+  }
+  .card__reasons li::before {
+    content: '✓';
+    margin-right: 8px;
+  }
+  .scores {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--subtle);
+    font-size: 12px;
+  }
+  .scores__row {
+    display: grid;
+    grid-template-columns: 96px 1fr 30px;
+    align-items: center;
+    gap: 12px;
+  }
+  .scores__row > span:first-child {
+    color: var(--muted);
+  }
+  .scores__row .mono {
+    text-align: right;
+  }
+  .scores__bar {
+    height: 6px;
+    border-radius: 6px;
+    background: var(--line);
+  }
+  .scores__bar span {
+    display: block;
+    height: 6px;
+    border-radius: 6px;
+    background: var(--ink);
+    width: var(--w);
+    transform: scaleX(var(--fill, 0));
+    transform-origin: left;
+  }
+  .card__actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  /* Course page */
+  .page {
+    position: absolute;
+    right: 400px;
+    bottom: 120px;
+    width: 360px;
+    border-radius: 14px;
+    background: var(--paper);
+    box-shadow:
+      0 24px 60px -10px rgba(10, 10, 10, 0.35),
+      0 0 0 1px rgba(10, 10, 10, 0.1);
+    overflow: hidden;
+    opacity: 0;
+  }
+  .page__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    background: var(--subtle);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .page__bar i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line);
+  }
+  .page__bar span {
+    margin-left: 8px;
+  }
+  .page__body {
+    display: grid;
+    gap: 9px;
+    padding: 18px 16px 20px;
+  }
+  .sk {
+    display: block;
+    height: 7px;
+    border-radius: 4px;
+    background: var(--line);
+  }
+  .page__quote {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .page__quote mark {
+    padding: 1px 4px;
+    background: linear-gradient(var(--yellow), var(--yellow)) no-repeat 0 0 / 100% 100%;
+    color: var(--ink);
+  }
+</style>
+
+<script>
+  // Scale the 1200px app to whatever width its stage has.
+  document.querySelectorAll<HTMLElement>('[data-app-stage]').forEach((stage) => {
+    new ResizeObserver(([entry]) => {
+      const narrow = entry.contentRect.width < 640
+      stage.classList.toggle('is-narrow', narrow)
+      stage.style.setProperty('--s', String(entry.contentRect.width / (narrow ? 440 : 1200)))
+    }).observe(stage)
+  })
+</script>

@@ -1,0 +1,110 @@
+---
+// From Lagos to a UK campus: three photos at different scroll speeds.
+---
+
+<section class="trip" aria-labelledby="trip-title">
+  <div class="trip__head">
+    <h2 id="trip-title" class="trip__title display" data-split>
+      From Lagos <span class="light">to a</span> UK&nbsp;campus<span class="trip__dot">.</span>
+    </h2>
+    <p class="body-lg" data-rise>
+      We start where most Nigerian students go. A new country joins only when its schools can be checked against
+      official registers, not a brochure.
+    </p>
+  </div>
+
+  <div class="trip__grid">
+    <figure class="trip__a tex" data-texture="dots" data-parallax="6">
+      <img src="/images/danfo2.webp" alt="Yellow danfo buses parked on a Lagos street at dusk" width="1600" height="1067" loading="lazy" />
+    </figure>
+    <figure class="trip__b tex" data-texture="lines" data-parallax="14">
+      <img
+        src="/images/courtyard.webp"
+        alt="A Gothic university building and its cloisters around a green lawn"
+        width="1600"
+        height="1067"
+        loading="lazy"
+      />
+    </figure>
+    <figure class="trip__c tex" data-texture="dots" data-parallax="22">
+      <img
+        src="/images/field.webp"
+        alt="A red-brick university building with a tower, seen across a lawn"
+        width="1600"
+        height="1200"
+        loading="lazy"
+      />
+    </figure>
+    <figure class="trip__d tex" data-texture="lines" data-parallax="10">
+      <img src="/images/clock.webp" alt="A red-brick clock tower against a blue sky" width="1400" height="932" loading="lazy" />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .trip {
+    padding: clamp(110px, 18vh, 200px) var(--gutter) clamp(40px, 8vh, 100px);
+    background: var(--paper);
+  }
+  .trip__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 28px 48px;
+  }
+  .trip__title {
+    font-size: clamp(44px, 7.6vw, 136px);
+    max-width: 9em;
+  }
+  .trip__dot {
+    color: var(--green);
+  }
+  .trip__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto;
+    gap: clamp(12px, 2vw, 28px);
+    margin-top: clamp(56px, 10vh, 120px);
+  }
+  .trip__grid figure {
+    margin: 0;
+  }
+  .trip__a {
+    grid-column: 1 / span 5;
+    aspect-ratio: 4 / 5;
+  }
+  .trip__b {
+    grid-column: 7 / span 6;
+    aspect-ratio: 3 / 2;
+    margin-top: 18vh !important;
+  }
+  .trip__c {
+    grid-column: 4 / span 4;
+    aspect-ratio: 1;
+    margin-top: -6vh !important;
+  }
+  .trip__d {
+    grid-column: 9 / span 4;
+    aspect-ratio: 4 / 3;
+    margin-top: 8vh !important;
+  }
+  @media (max-width: 760px) {
+    .trip__a {
+      grid-column: 1 / span 8;
+    }
+    .trip__b {
+      grid-column: 3 / span 10;
+      margin-top: 6vh !important;
+    }
+    .trip__c {
+      grid-column: 1 / span 6;
+      margin-top: 0 !important;
+    }
+    .trip__d {
+      grid-column: 7 / span 6;
+      margin-top: 6vh !important;
+    }
+  }
+</style>

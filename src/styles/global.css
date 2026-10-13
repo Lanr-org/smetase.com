@@ -1,0 +1,236 @@
+:root {
+  --ink: #0a0a0a;
+  --paper: #ffffff;
+  --subtle: #f5f5f5;
+  --line: #e5e5e5;
+  --muted: #737373;
+
+  /* The taste: only seen once a section has been scrolled past. */
+  --blue: #2b4bff;
+  --orange: #ff5b22;
+  --green: #00a46a;
+  --yellow: #ffc21a;
+
+  --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Unbounded', 'Instrument Sans', ui-sans-serif, sans-serif;
+  --font-mono: 'Martian Mono', ui-monospace, monospace;
+
+  --gutter: clamp(16px, 4vw, 64px);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- The smell: everything below the line is black & white ---------- */
+
+.smell {
+  position: fixed;
+  inset: 0;
+  top: var(--line-y, 0px);
+  z-index: 40;
+  pointer-events: none;
+  -webkit-backdrop-filter: grayscale(1);
+  backdrop-filter: grayscale(1);
+  /* Feather the edge so colour seeps in rather than switching on. */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 140px);
+  margin-top: -140px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smell {
+    display: none;
+  }
+}
+
+/* ---------- Textured photos (see scripts/texture.ts) ---------- */
+
+.tex {
+  --reveal: 0px;
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.tex img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tex__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: radial-gradient(
+    circle at var(--rx, 50%) var(--ry, 50%),
+    transparent var(--reveal),
+    #000 calc(var(--reveal) + 60px)
+  );
+  mask-image: radial-gradient(
+    circle at var(--rx, 50%) var(--ry, 50%),
+    transparent var(--reveal),
+    #000 calc(var(--reveal) + 60px)
+  );
+}
+
+/* ---------- Shared type ---------- */
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+}
+
+.display .light {
+  font-weight: 300;
+}
+
+.statement {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.6vw, 56px);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.statement .dim {
+  color: #a3a3a3;
+}
+
+.body-lg {
+  font-size: clamp(17px, 1.35vw, 21px);
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 34ch;
+}
+
+/* Split-line masks for headline reveals. */
+.line-mask {
+  overflow: clip;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* ---------- Links that act as buttons: no pills ---------- */
+
+.cta {
+  --c: var(--ink);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 0 12px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(17px, 1.3vw, 20px);
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  color: var(--c);
+}
+
+.cta::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: currentColor;
+  transform-origin: left;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.cta:hover::after {
+  transform: scaleX(0.25);
+}
+
+.cta .arrow {
+  display: inline-block;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.cta:hover .arrow {
+  transform: translate(4px, -4px);
+}
+
+.cta--block {
+  padding: 22px 28px;
+  background: var(--c);
+  color: var(--paper);
+}
+
+.cta--block::after {
+  display: none;
+}
+
+.cta--block:hover {
+  background: var(--blue);
+}

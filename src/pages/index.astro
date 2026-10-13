@@ -1,6 +1,19 @@
 ---
-const title = 'Smetase — coming soon'
-const description = 'Smetase helps students find the right school abroad. Coming soon.'
+import '../styles/global.css'
+import Hero from '../components/Hero.astro'
+import Nav from '../components/Nav.astro'
+import Agents from '../components/Agents.astro'
+import Board from '../components/Board.astro'
+import Final from '../components/Final.astro'
+import Footer from '../components/Footer.astro'
+import Journey from '../components/Journey.astro'
+import Noise from '../components/Noise.astro'
+import Parents from '../components/Parents.astro'
+import ProductStory from '../components/ProductStory.astro'
+
+const title = 'Smetase — study abroad without the guesswork'
+const description =
+  'Smetase is a study-abroad advisor you can text. Real programmes, fees checked against the course page, and a person when it matters.'
 ---
 
 <!doctype html>
@@ -8,82 +21,36 @@ const description = 'Smetase helps students find the right school abroad. Coming
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="theme-color" content="#ffffff" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content="https://smetase.com" />
+    <link rel="icon" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500&family=Martian+Mono:wght@400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Martian+Mono:wght@400;500&family=Unbounded:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
+    <Nav />
     <main>
-      <video src="/teaser.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Smetase teaser"></video>
-      <h1>Smetase</h1>
-      <p>Coming soon</p>
-      <nav>
-        <a href="/privacy">Privacy</a>
-        <a href="/terms">Terms</a>
-      </nav>
+      <Hero />
+      <Noise />
+      <ProductStory />
+      <Journey />
+      <Board />
+      <Parents />
+      <Agents />
+      <Final />
     </main>
+    <Footer />
+    <div class="smell" aria-hidden="true"></div>
+    <script>
+      import '../scripts/main.ts'
+    </script>
   </body>
 </html>
-
-<style>
-  :global(html),
-  :global(body) {
-    margin: 0;
-    background: #0a0a0a;
-    color: #fafafa;
-  }
-  main {
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1.25rem;
-    padding: 2rem 16px;
-    box-sizing: border-box;
-    text-align: center;
-  }
-  video {
-    width: min(960px, 100%);
-    aspect-ratio: 16 / 9;
-    background: #000;
-  }
-  h1 {
-    margin: 1rem 0 0;
-    font-family: 'Unbounded', system-ui, sans-serif;
-    font-weight: 500;
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    letter-spacing: -0.02em;
-  }
-  p {
-    margin: 0;
-    font-family: 'Martian Mono', ui-monospace, monospace;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: #a3a3a3;
-  }
-  nav {
-    display: flex;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-  nav a {
-    font-family: 'Martian Mono', ui-monospace, monospace;
-    font-size: 0.7rem;
-    color: #737373;
-    text-decoration: none;
-  }
-  nav a:hover {
-    color: #fafafa;
-  }
-</style>

@@ -1,0 +1,80 @@
+---
+import { APP_URL } from '../config'
+import Logo from './Logo.astro'
+---
+
+<header class="nav">
+  <a href="/" class="nav__home" aria-label="Smetase home">
+    <Logo dark height="clamp(22px, 2vw, 26px)" />
+  </a>
+  <nav class="nav__links" aria-label="Main">
+    <a href="#how">How it works</a>
+    <a href="#parents">For parents</a>
+    <a href="#agents">For agents</a>
+    <a href={APP_URL} class="nav__start">Start <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px var(--gutter);
+    transition: transform 0.6s var(--ease-out), background-color 0.4s;
+  }
+  .nav.is-hidden {
+    transform: translateY(-110%);
+  }
+  .nav.is-solid {
+    background: rgba(255, 255, 255, 0.86);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+  }
+  .nav__home {
+    display: flex;
+  }
+  .nav__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(18px, 2.6vw, 40px);
+    font-size: 15px;
+  }
+  .nav__links a {
+    text-decoration: none;
+    position: relative;
+  }
+  .nav__links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    height: 1.5px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-out);
+  }
+  .nav__links a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  .nav__start {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .nav__start::after {
+    transform: scaleX(1) !important;
+  }
+  @media (max-width: 760px) {
+    .nav__links a:not(.nav__start) {
+      display: none;
+    }
+  }
+</style>

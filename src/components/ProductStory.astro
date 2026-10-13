@@ -1,0 +1,357 @@
+---
+import AppWindow from './AppWindow.astro'
+
+const steps = [
+  {
+    title: ['Just', 'chat.'],
+    body: "Telegram or the web, one conversation across both. Ask about schools, costs and visas the way you'd ask a friend.",
+    flavour: 'blue',
+  },
+  {
+    title: ['Matched to', 'real programmes.'],
+    body: 'Scored on your budget, your start date and your visa chances. Every match shows why it scored what it did.',
+    flavour: 'orange',
+  },
+  {
+    title: ['Every fee', 'has a source.'],
+    body: "Each programme is checked against the university's own course page, then re-checked every week.",
+    flavour: 'yellow',
+  },
+  {
+    title: ['Practise the', 'visa interview.'],
+    body: 'Five questions, honest feedback, and a stronger sample answer whenever you need one.',
+    flavour: 'green',
+  },
+  {
+    title: ['A person,', 'one tap away.'],
+    body: 'Ask for a real advisor any time. They pick up in the same chat, with your whole plan in front of them.',
+    flavour: 'blue',
+  },
+  {
+    title: ['Every step,', 'in order.'],
+    body: 'Deposit, English test, proof of funds, visa. Tick each one off as you go.',
+    flavour: 'orange',
+  },
+]
+---
+
+<section class="story" id="how" aria-label="How Smetase works">
+  <div class="story__pin" data-story>
+    <div class="story__slab" data-slab></div>
+
+    <div class="story__copy">
+      <ol class="story__steps">
+        {
+          steps.map((step, i) => (
+            <li class="story__step" data-step-copy={i}>
+              <h2 class="story__title display">
+                <span class="line-mask"><span class="story__line">{step.title[0]}</span></span>
+                <span class="line-mask"><span class="story__line light">{step.title[1]}</span></span>
+              </h2>
+              <p class="story__body">{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="story__progress" aria-hidden="true">
+        {steps.map((_, i) => <span data-tick={i} />)}
+      </div>
+    </div>
+
+    <div class="story__app">
+      <AppWindow />
+    </div>
+  </div>
+  <script type="application/json" data-flavours set:html={JSON.stringify(steps.map((s) => s.flavour))} />
+</section>
+
+<style>
+  .story {
+    position: relative;
+    background: var(--paper);
+  }
+  .story__pin {
+    position: relative;
+    height: 100svh;
+    display: grid;
+    grid-template-columns: minmax(320px, 0.85fr) 1.5fr;
+    align-items: center;
+    gap: clamp(24px, 4vw, 72px);
+    padding: 90px var(--gutter) 40px;
+    overflow: hidden;
+  }
+  .story__slab {
+    position: absolute;
+    right: 0;
+    top: 12%;
+    bottom: 12%;
+    width: 58%;
+    background: var(--blue);
+    transition: background-color 0.8s var(--ease-out);
+  }
+  .story__copy {
+    position: relative;
+    z-index: 2;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .story__steps {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-height: 22em;
+  }
+  .story__step {
+    position: absolute;
+    inset: auto 0 auto 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .story__title {
+    font-size: clamp(32px, 3.5vw, 64px);
+    text-wrap: balance;
+  }
+  .story__title .line-mask {
+    display: block;
+  }
+  .story__line {
+    display: block;
+  }
+  .story__body {
+    margin-top: 28px;
+    max-width: 30ch;
+    font-size: clamp(16px, 1.3vw, 20px);
+    color: var(--muted);
+  }
+  .story__progress {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .story__progress span {
+    width: 28px;
+    height: 2px;
+    background: var(--line);
+    transition: background 0.4s;
+  }
+  .story__progress span.is-on {
+    background: var(--ink);
+  }
+  .story__app {
+    position: relative;
+    z-index: 2;
+    justify-self: end;
+    /* Fit the 1200×760 app inside the screen height as well as the column. */
+    width: min(100%, calc((100svh - 150px) * 1.579));
+  }
+
+  @media (max-width: 900px) {
+    .story__pin {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+      align-items: start;
+      padding-top: 84px;
+      gap: 20px;
+    }
+    .story__steps {
+      min-height: 12.5em;
+    }
+    .story__step {
+      top: 0;
+      transform: none;
+    }
+    .story__title {
+      font-size: clamp(30px, 8.4vw, 48px);
+    }
+    .story__body {
+      margin-top: 14px;
+      font-size: 15px;
+    }
+    .story__slab {
+      top: auto;
+      bottom: 6%;
+      height: 42%;
+      width: 100%;
+    }
+    .story__app {
+      align-self: center;
+      justify-self: center;
+      /* Leave room for the copy above on short phones. */
+      width: min(100%, calc((100svh - 340px) * 440 / 560));
+    }
+  }
+</style>
+
+<script>
+  import type { gsap as Gsap } from 'gsap'
+
+  const COLOURS: Record<string, string> = {
+    blue: 'var(--blue)',
+    orange: 'var(--orange)',
+    yellow: 'var(--yellow)',
+    green: 'var(--green)',
+  }
+
+  window.addEventListener('smetase:ready', (event) => {
+    const { gsap, reduceMotion } = (event as CustomEvent<{ gsap: typeof Gsap; reduceMotion: boolean }>).detail
+    const pin = document.querySelector<HTMLElement>('[data-story]')
+    const app = document.querySelector<HTMLElement>('[data-app]')
+    if (!pin || !app) return
+    const flavours: string[] = JSON.parse(document.querySelector('[data-flavours]')?.textContent || '[]')
+    const slab = pin.querySelector<HTMLElement>('[data-slab]')!
+    const copies = gsap.utils.toArray<HTMLElement>('[data-step-copy]', pin)
+    const ticks = gsap.utils.toArray<HTMLElement>('[data-tick]', pin)
+    const q = (sel: string) => app.querySelectorAll<HTMLElement>(sel)
+    const stages = gsap.utils.toArray<HTMLElement>('.rail__item', app)
+
+    const setJourney = (done: number) =>
+      stages.forEach((el, i) => {
+        el.classList.toggle('is-done', i < done)
+        el.classList.toggle('is-current', i === done)
+      })
+
+    // What the app shows at each step. Index = step.
+    // On phones the app shows one column; this is the one each step needs.
+    const VIEWS = ['chat', 'plan', 'plan', 'chat', 'chat', 'journey']
+    const onStep = (i: number) => {
+      app.dataset.view = VIEWS[i]
+      slab.style.backgroundColor = COLOURS[flavours[i]] ?? COLOURS.blue
+      ticks.forEach((t, n) => t.classList.toggle('is-on', n <= i))
+      q('[data-advisor-btn]')[0]?.classList.toggle('is-pressed', i >= 4)
+      setJourney(i >= 5 ? 5 : 2)
+      const next = app.querySelector('[data-next-title]')
+      const desc = app.querySelector('[data-next-desc]')
+      if (next && desc) {
+        next.textContent = i >= 5 ? 'Book your English test' : 'Choose your programme'
+        desc.textContent =
+          i >= 5 ? 'Pick a test your university accepts and book a date.' : 'Compare your matches and pick the one you want.'
+      }
+    }
+
+    // Start state: nothing in the chat yet, plan empty.
+    gsap.set(q('[data-msg]'), { autoAlpha: 0, y: 16 })
+    gsap.set(q('[data-card], [data-card-2]'), { autoAlpha: 0, x: 40 })
+    gsap.set(q('[data-scores]'), { height: 0, marginTop: 0, paddingTop: 0, paddingBottom: 0, overflow: 'hidden' })
+    gsap.set(copies.slice(1), { autoAlpha: 0 })
+    onStep(0)
+
+    if (reduceMotion) {
+      gsap.set(q('[data-msg]'), { autoAlpha: 1, y: 0 })
+      gsap.set(q('[data-msg="typing"]'), { display: 'none' })
+      gsap.set(q('[data-card], [data-card-2]'), { autoAlpha: 1, x: 0 })
+      return
+    }
+
+    let current = 0
+    const tl = gsap.timeline({
+      defaults: { ease: 'power3.out', duration: 1 },
+      scrollTrigger: {
+        trigger: pin,
+        start: 'top top',
+        end: () => `+=${window.innerHeight * 6}`,
+        pin: true,
+        scrub: 0.8,
+        // Settle on the resting point of the nearest step, where its animation has finished.
+        snap: {
+          snapTo: (value: number) => {
+            const rests = copies.map((_, n) => (tl.labels[`s${n}`] ?? 0) / tl.duration())
+            return rests.reduce((best, r) => (Math.abs(r - value) < Math.abs(best - value) ? r : best), rests[0])
+          },
+          duration: { min: 0.3, max: 0.9 },
+          delay: 0.1,
+          inertia: false,
+          ease: 'power2.inOut',
+        },
+        onUpdate: () => {
+          // The current step is the last step whose segment (label b<n>) the playhead has entered.
+          const t = tl.time()
+          let step = 0
+          for (let n = 0; n < copies.length; n++) if (t >= (tl.labels[`b${n}`] ?? Infinity)) step = n
+          if (step !== current) {
+            current = step
+            onStep(step)
+          }
+        },
+      },
+    })
+
+    // Lets you jump to a step from the console while working on it: __story.scrollTrigger.labelToScroll('s3')
+    if (import.meta.env.DEV) Object.assign(window, { __story: tl })
+
+    // Copy swap between steps.
+    const swap = (from: number, to: number) => {
+      const out = copies[from].querySelectorAll('.story__line')
+      const inn = copies[to].querySelectorAll('.story__line')
+      return gsap
+        .timeline()
+        .to(out, { yPercent: -110, duration: 0.6, ease: 'power3.in', stagger: 0.05 })
+        .to(copies[from].querySelector('.story__body'), { autoAlpha: 0, y: -12, duration: 0.4 }, 0)
+        .set(copies[from], { autoAlpha: 0 })
+        .set(copies[to], { autoAlpha: 1 })
+        .fromTo(inn, { yPercent: 110 }, { yPercent: 0, duration: 0.8, stagger: 0.06 })
+        .fromTo(copies[to].querySelector('.story__body'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.6 }, '<0.1')
+    }
+
+    const msg = (n: string) => q(`[data-msg="${n}"]`)
+    const show = { autoAlpha: 1, y: 0, duration: 0.5 }
+
+    const rest = (n: number) => tl.addLabel(`s${n}`).to({}, { duration: 0.6 })
+
+    // 0 — chat
+    tl.addLabel('b0')
+      .to(msg('1'), show)
+      .to(msg('2'), show, '+=0.2')
+      .to(msg('3'), show, '+=0.2')
+      .to(msg('typing'), show, '+=0.1')
+      .to(msg('typing'), { autoAlpha: 0, height: 0, margin: 0, duration: 0.2 }, '+=0.3')
+      .to(msg('4'), show)
+    rest(0)
+
+    // 1 — matches
+    tl.addLabel('b1')
+      .add(swap(0, 1))
+      .to(q('[data-card]'), { autoAlpha: 1, x: 0, duration: 0.7 }, 'b1+=0.3')
+      .to(q('[data-card-2]'), { autoAlpha: 1, x: 0, duration: 0.7 }, '<0.15')
+      .to(q('[data-scores]'), { height: 'auto', marginTop: 14, paddingTop: 12, paddingBottom: 12, duration: 0.6 })
+      .to(q('.scores__bar span'), { '--fill': 1, duration: 0.8, stagger: 0.08 }, '<0.2')
+      .fromTo(q('[data-fit]'), { textContent: 0 }, { textContent: 92, snap: { textContent: 1 }, duration: 0.8 }, '<')
+    rest(1)
+
+    // 2 — source
+    tl.addLabel('b2')
+      .add(swap(1, 2))
+      .to(q('[data-scores]'), { height: 0, marginTop: 0, paddingTop: 0, paddingBottom: 0, duration: 0.5 }, 'b2')
+      .to(q('[data-source]'), { backgroundColor: '#fff3cc', duration: 0.4 }, 'b2+=0.3')
+      .fromTo(q('[data-page]'), { autoAlpha: 0, y: 40, scale: 0.94 }, { autoAlpha: 1, y: 0, scale: 1, duration: 0.7 }, '<')
+      .fromTo(q('.page__quote mark'), { backgroundSize: '0% 100%' }, { backgroundSize: '100% 100%', duration: 0.5 })
+    rest(2)
+
+    // 3 — interview
+    tl.addLabel('b3')
+      .add(swap(2, 3))
+      .to(q('[data-page]'), { autoAlpha: 0, y: 30, duration: 0.4 }, 'b3')
+      .to(q('[data-source]'), { backgroundColor: 'rgba(0,0,0,0)', duration: 0.3 }, 'b3')
+      .to(q('[data-interview]'), { x: 0, duration: 0.8, ease: 'expo.inOut' }, 'b3+=0.2')
+      .to(q('[data-iv-answer]'), { clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: 'none' })
+      .to(q('[data-iv-feedback]'), { autoAlpha: 1, y: 0, duration: 0.5 })
+      .fromTo(q('[data-iv-score]'), { textContent: 0 }, { textContent: 8, snap: { textContent: 1 }, duration: 0.6 }, '<')
+    rest(3)
+
+    // 4 — advisor
+    tl.addLabel('b4')
+      .add(swap(3, 4))
+      .to(q('[data-interview]'), { x: '102%', duration: 0.7, ease: 'expo.inOut' }, 'b4')
+      .to(q('[data-banner]'), { maxHeight: 60, paddingTop: 8, paddingBottom: 8, duration: 0.5 }, 'b4+=0.6')
+      .to(msg('5'), show, '+=0.2')
+    rest(4)
+
+    // 5 — journey
+    tl.addLabel('b5')
+      .add(swap(4, 5))
+      .fromTo(q('.next'), { scale: 1 }, { scale: 1.04, yoyo: true, repeat: 1, duration: 0.3 }, 'b5+=0.6')
+    rest(5)
+  })
+</script>

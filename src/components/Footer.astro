@@ -1,0 +1,126 @@
+---
+import { APP_URL, HELLO_EMAIL, PARTNERS_EMAIL, TELEGRAM_URL } from '../config'
+import Logo from './Logo.astro'
+import Socials from './Socials.astro'
+
+const year = new Date().getFullYear()
+---
+
+<footer class="footer" data-footer>
+  <div class="footer__top">
+    <div class="footer__lead">
+      <p class="footer__line statement">
+        Questions? <a href={`mailto:${HELLO_EMAIL}`}>{HELLO_EMAIL}</a>
+      </p>
+      <Socials size="18px" />
+    </div>
+    <nav class="footer__cols" aria-label="Footer">
+      <ul>
+        <li><a href={APP_URL}>Start on the web</a></li>
+        {TELEGRAM_URL ? <li><a href={TELEGRAM_URL}>Telegram</a></li> : null}
+        <li><a href="/#how">How it works</a></li>
+        <li><a href="/#parents">For parents</a></li>
+      </ul>
+      <ul>
+        <li><a href="/#agents">For agents</a></li>
+        <li><a href={`mailto:${PARTNERS_EMAIL}`}>{PARTNERS_EMAIL}</a></li>
+      </ul>
+      <ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/terms">Terms</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="footer__giant" data-footer-logo>
+    <Logo height="calc((100vw - 2 * var(--gutter)) * 120 / 652.364)" />
+  </div>
+
+  <div class="footer__base">
+    <span>© {year} Smetase</span>
+    <span>Made in Lagos</span>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    background: var(--ink);
+    color: var(--paper);
+    padding: clamp(72px, 12vh, 140px) var(--gutter) 28px;
+    border-top: 1px solid #222;
+  }
+  .footer a {
+    text-decoration: none;
+  }
+  .footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+  .footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 48px 64px;
+  }
+  .footer__lead {
+    display: grid;
+    gap: 32px;
+  }
+  .footer__line {
+    font-size: clamp(24px, 2.8vw, 44px);
+    max-width: 14em;
+  }
+  .footer__line a {
+    color: #8c8c8c;
+  }
+  .footer__cols {
+    display: flex;
+    gap: clamp(32px, 5vw, 96px);
+  }
+  .footer__cols ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    font-size: 16px;
+  }
+  .footer__giant {
+    margin-top: clamp(80px, 16vh, 200px);
+    overflow: clip;
+  }
+  .footer__base {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #262626;
+    font-size: 13px;
+    color: #8c8c8c;
+  }
+  @media (max-width: 640px) {
+    .footer__cols {
+      flex-wrap: wrap;
+    }
+  }
+</style>
+
+<script>
+  import type { gsap as Gsap } from 'gsap'
+  window.addEventListener('smetase:ready', (event) => {
+    const { gsap, reduceMotion } = (event as CustomEvent<{ gsap: typeof Gsap; reduceMotion: boolean }>).detail
+    if (reduceMotion) return
+    const parts = gsap.utils.toArray<HTMLElement>('[data-footer-logo] .logo__part')
+    gsap.from(parts, {
+      yPercent: 115,
+      rotate: (i) => (i === 0 ? -25 : 0),
+      duration: 1.5,
+      ease: 'expo.out',
+      stagger: 0.06,
+      scrollTrigger: { trigger: '[data-footer-logo]', start: 'top 95%', once: true },
+    })
+  })
+</script>

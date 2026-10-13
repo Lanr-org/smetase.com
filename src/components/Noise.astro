@@ -1,0 +1,130 @@
+---
+// The problem: dark, loud, a Lagos morning. The words that make choosing a school hard drift past.
+const noise = [
+  'Agents',
+  'Fees',
+  'Deadlines',
+  'Visas',
+  'Rankings',
+  'Tuition',
+  'IELTS',
+  'Proof of funds',
+  'Admissions',
+  'Scholarships',
+  'Forms',
+  'Schools',
+]
+const rows = [0, 1, 2]
+---
+
+<section class="noise" aria-labelledby="noise-title">
+  <div class="noise__wall" aria-hidden="true">
+    {
+      rows.map((r) => (
+        <p class:list={['noise__row display', { light: r % 2 }]} data-noise-row={r}>
+          {[...noise, ...noise].slice(r * 3, r * 3 + 16).map((word) => (
+            <span>{word}</span>
+          ))}
+        </p>
+      ))
+    }
+  </div>
+
+  <div class="noise__inner">
+    <p class="statement noise__statement" data-split>
+      Most students pick a school on a cousin's advice, an agent's commission and a fee page from three years ago.{' '}
+      <span class="dim">Then they find out the real cost after they've paid.</span>
+    </p>
+
+    <figure class="noise__photo tex" data-texture="lines" data-parallax="6">
+      <img
+        src="/images/traffic.webp"
+        alt="Danfo buses and market stalls packed into a Lagos street, seen from above"
+        width="1800"
+        height="1200"
+        loading="lazy"
+      />
+    </figure>
+
+    <h2 id="noise-title" class="noise__title display" data-split>
+      Too much <span class="light">guesswork</span><span class="noise__dot">.</span>
+    </h2>
+  </div>
+</section>
+
+<style>
+  .noise {
+    position: relative;
+    background: var(--ink);
+    color: var(--paper);
+    padding: clamp(96px, 16vh, 180px) 0 clamp(80px, 14vh, 160px);
+    overflow: hidden;
+  }
+  .noise__wall {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    opacity: 0.07;
+    pointer-events: none;
+    transform: rotate(-8deg) scale(1.2);
+  }
+  .noise__row {
+    display: flex;
+    gap: 0.6em;
+    font-size: clamp(56px, 9vw, 150px);
+    white-space: nowrap;
+    will-change: transform;
+  }
+  .noise__row span::after {
+    content: '•';
+    margin-left: 0.6em;
+  }
+  .noise__inner {
+    position: relative;
+    padding: 0 var(--gutter);
+  }
+  .noise__statement {
+    max-width: 21em;
+  }
+  .noise__statement .dim {
+    color: #6b6b6b;
+  }
+  .noise__photo {
+    margin: clamp(56px, 10vh, 120px) 0 0 auto;
+    width: min(100%, 74vw);
+    aspect-ratio: 16 / 9;
+  }
+  .noise__title {
+    margin-top: clamp(40px, 8vh, 96px);
+    font-size: clamp(48px, 10.5vw, 190px);
+  }
+  .noise__dot {
+    color: var(--orange);
+  }
+  @media (max-width: 760px) {
+    .noise__photo {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  import type { gsap as Gsap } from 'gsap'
+  window.addEventListener('smetase:ready', (event) => {
+    const { gsap, reduceMotion } = (event as CustomEvent<{ gsap: typeof Gsap; reduceMotion: boolean }>).detail
+    if (reduceMotion) return
+    gsap.utils.toArray<HTMLElement>('[data-noise-row]').forEach((row, i) => {
+      gsap.fromTo(
+        row,
+        { xPercent: i % 2 ? -30 : 0 },
+        {
+          xPercent: i % 2 ? 0 : -30,
+          ease: 'none',
+          scrollTrigger: { trigger: '.noise', start: 'top bottom', end: 'bottom top', scrub: true },
+        },
+      )
+    })
+  })
+</script>

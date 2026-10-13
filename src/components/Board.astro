@@ -1,0 +1,192 @@
+---
+// An airport departures board out of Lagos. Each destination's letters flip into place
+// and its flag spins in like a coin; the flags only get their colour once scrolled past.
+import { DESTINATIONS } from '../config'
+---
+
+<section class="board" aria-labelledby="board-title">
+  <h2 id="board-title" class="board__title display" data-split>
+    Leaving from <span class="light">Lagos.</span>
+  </h2>
+
+  <div class="board__panel" data-board>
+    <ol class="board__rows">
+      {
+        DESTINATIONS.map((d, i) => (
+          <li class:list={['board__row', { 'is-live': i === 0 }]} data-board-row>
+            <span class="board__flag" data-flag>
+              <img src={`/flags/${d.flag}.svg`} alt="" width="64" height="64" loading="lazy" />
+            </span>
+            <span class="board__route">
+              <span class="flap" data-flap="LOS">LOS</span>
+              <span class="board__arrow" aria-hidden="true">→</span>
+              <span class="flap" data-flap={d.airport}>{d.airport}</span>
+            </span>
+            <span class="board__country">{d.country}</span>
+            <span class="board__status" data-flap={d.status.toUpperCase()}>{d.status.toUpperCase()}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .board {
+    padding: clamp(60px, 10vh, 120px) var(--gutter) clamp(110px, 18vh, 200px);
+    background: var(--paper);
+  }
+  .board__title {
+    font-size: clamp(40px, 6.4vw, 116px);
+    margin-bottom: clamp(40px, 7vh, 80px);
+  }
+  .board__panel {
+    background: var(--ink);
+    color: var(--paper);
+    padding: clamp(12px, 2vw, 28px) clamp(16px, 3vw, 44px);
+  }
+  .board__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .board__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1.1fr) minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(14px, 3vw, 48px);
+    padding: clamp(14px, 2.2vh, 24px) 0;
+    border-bottom: 1px solid #262626;
+    font-family: var(--font-mono);
+  }
+  .board__row:last-child {
+    border-bottom: 0;
+  }
+  .board__flag {
+    display: block;
+    width: clamp(36px, 4vw, 60px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #333;
+  }
+  .board__flag img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .board__route {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: clamp(22px, 3.4vw, 56px);
+    letter-spacing: 0.04em;
+  }
+  .board__arrow {
+    color: #6b6b6b;
+  }
+  .board__country {
+    font-family: var(--font-sans);
+    font-size: clamp(14px, 1.4vw, 22px);
+    color: #a3a3a3;
+  }
+  .board__status {
+    font-size: clamp(11px, 1vw, 15px);
+    letter-spacing: 0.12em;
+    color: #8c8c8c;
+    min-width: 9ch;
+    text-align: right;
+  }
+  .board__row.is-live .board__status {
+    color: var(--yellow);
+  }
+  .board__row.is-live .board__country {
+    color: var(--paper);
+  }
+
+  /* Split-flap cells: one dark tile per character. */
+  .flap :global(.ch) {
+    display: inline-block;
+    min-width: 0.78em;
+    padding: 0.04em 0.05em;
+    margin-right: 0.06em;
+    background: #1a1a1a;
+    border-radius: 4px;
+    text-align: center;
+    background-image: linear-gradient(to bottom, transparent 49%, #0a0a0a 49%, #0a0a0a 52%, transparent 52%);
+  }
+
+  @media (max-width: 700px) {
+    .board__row {
+      grid-template-columns: auto 1fr auto;
+    }
+    .board__country {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import type { gsap as Gsap } from 'gsap'
+
+  const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
+  // Wrap each character of a split-flap cell so it gets its own tile.
+  document.querySelectorAll<HTMLElement>('.flap').forEach((el) => {
+    el.innerHTML = [...(el.dataset.flap || '')].map((c) => `<span class="ch">${c}</span>`).join('')
+  })
+
+  window.addEventListener('smetase:ready', (event) => {
+    const { gsap, reduceMotion } = (event as CustomEvent<{ gsap: typeof Gsap; reduceMotion: boolean }>).detail
+    if (reduceMotion) return
+    const rows = gsap.utils.toArray<HTMLElement>('[data-board-row]')
+
+    // Cycle random letters, then land on the real one, like a Solari board.
+    const flip = (el: HTMLElement, delay: number) => {
+      const finalText = el.dataset.flap || ''
+      const cells = el.classList.contains('flap') ? Array.from(el.querySelectorAll<HTMLElement>('.ch')) : [el]
+      cells.forEach((cell, i) => {
+        const target = el.classList.contains('flap') ? finalText[i] : finalText
+        const state = { n: 0 }
+        const turns = 8 + i * 3
+        gsap.to(state, {
+          n: turns,
+          duration: 0.05 * turns,
+          delay: delay + i * 0.05,
+          ease: 'none',
+          onUpdate: () => {
+            const step = Math.floor(state.n)
+            if (step >= turns) cell.textContent = target
+            else if (el.classList.contains('flap')) cell.textContent = LETTERS[(step * 7 + i * 3) % 26]
+            else cell.textContent = [...target].map((_, k) => LETTERS[(step * 5 + k * 11) % 26]).join('')
+          },
+          onComplete: () => {
+            cell.textContent = target
+          },
+        })
+      })
+    }
+
+    rows.forEach((row, i) => {
+      gsap.from(row.querySelector('[data-flag]'), {
+        rotateY: 90,
+        duration: 1.2,
+        ease: 'expo.out',
+        delay: i * 0.09,
+        scrollTrigger: { trigger: row, start: 'top 92%', once: true },
+      })
+      gsap.from(row, {
+        opacity: 0,
+        y: 18,
+        duration: 0.8,
+        delay: i * 0.09,
+        scrollTrigger: {
+          trigger: row,
+          start: 'top 92%',
+          once: true,
+          onEnter: () => row.querySelectorAll<HTMLElement>('[data-flap]').forEach((el, k) => flip(el, i * 0.09 + k * 0.12)),
+        },
+      })
+    })
+  })
+</script>

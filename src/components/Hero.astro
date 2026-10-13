@@ -1,0 +1,135 @@
+---
+import { APP_URL, TELEGRAM_URL } from '../config'
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <h1 id="hero-title" class="hero__title display">
+    <span class="hero__row hero__row--1"><span class="hero__word" data-hero-word>Study</span></span>
+    <span class="hero__row hero__row--2"><span class="hero__word" data-hero-word>abroad<span class="hero__dot">.</span></span></span>
+  </h1>
+
+  <figure class="hero__photo tex" data-texture="dots" data-hero-photo>
+    <img
+      src="/images/bridge.webp"
+      alt="The Lekki–Ikoyi bridge in Lagos against a pale sky"
+      width="1200"
+      height="1672"
+      fetchpriority="high"
+    />
+  </figure>
+
+  <div class="hero__foot">
+    <div class="hero__intro" data-hero-fade>
+      <figure class="hero__thumb tex" data-texture="lines">
+        <img src="/images/laptop2.webp" alt="A student researching on a laptop" width="1400" height="933" loading="eager" />
+      </figure>
+      <p class="hero__lede">
+        Without the guesswork. Smetase is an advisor you can text. It matches you to real programmes, shows where
+        every fee came from, and brings in a person when it matters.
+      </p>
+    </div>
+    <div class="hero__ctas" data-hero-fade>
+      <a class="cta cta--block" href={APP_URL}>Start on the web <span class="arrow" aria-hidden="true">↗</span></a>
+      {
+        TELEGRAM_URL ? (
+          <a class="cta" href={TELEGRAM_URL}>
+            Open in Telegram <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        ) : null
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    padding: clamp(110px, 14vh, 150px) var(--gutter) clamp(28px, 5vh, 56px);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 32px;
+  }
+
+  .hero__title {
+    position: relative;
+    z-index: 2;
+    font-size: clamp(64px, min(18.5vw, 27svh), 330px);
+    pointer-events: none;
+  }
+  .hero__row {
+    display: block;
+    overflow: clip;
+    padding-bottom: 0.04em;
+  }
+  .hero__row--2 {
+    text-align: right;
+    margin-top: -0.02em;
+  }
+  .hero__word {
+    display: inline-block;
+  }
+  .hero__dot {
+    color: var(--blue);
+  }
+
+  .hero__photo {
+    position: absolute;
+    z-index: 3;
+    margin: 0;
+    left: 43%;
+    top: clamp(96px, 15svh, 200px);
+    width: clamp(150px, min(17vw, 30svh), 320px);
+    aspect-ratio: 3 / 4.2;
+  }
+
+  .hero__intro {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .hero__thumb {
+    flex: none;
+    margin: 0;
+    width: clamp(120px, 11vw, 190px);
+    aspect-ratio: 4 / 3;
+  }
+
+  .hero__foot {
+    position: relative;
+    z-index: 4;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 32px 48px;
+    flex-wrap: wrap;
+  }
+  .hero__lede {
+    max-width: 40ch;
+    font-size: clamp(16px, 1.25vw, 19px);
+    color: #3d3d3d;
+  }
+  .hero__ctas {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 760px) {
+    .hero {
+      grid-template-rows: auto auto auto;
+    }
+    .hero__photo {
+      position: relative;
+      z-index: 1;
+      left: auto;
+      top: auto;
+      width: 58%;
+      margin: -28px 0 0 auto;
+    }
+    .hero__thumb {
+      display: none;
+    }
+  }
+</style>

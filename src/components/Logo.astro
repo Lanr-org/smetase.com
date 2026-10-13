@@ -1,0 +1,57 @@
+---
+// The Smetase logo, assembled from the Figma parts (Smetase Landing Mockup, "Logo" 652×120)
+// so each piece can animate on its own. Sources are white; `dark` inverts them for light backgrounds.
+interface Props {
+  dark?: boolean
+  /** Any CSS length, e.g. '26px' or 'clamp(…)'. */
+  height?: string
+  class?: string
+  label?: string
+}
+const { dark = false, height = '28px', class: className = '', label = 'Smetase' } = Astro.props
+
+const parts = [
+  { name: 'mark', left: 0, top: 0, width: 93.818, height: 120 },
+  { name: 's', left: 105.6, top: 25.26, width: 67.636, height: 64.364 },
+  { name: 'm2', left: 227.76, top: 35.66, width: 14.182, height: 50.182 },
+  { name: 'm1', left: 186.34, top: 25.28, width: 53.455, height: 62.182 },
+  { name: 't', left: 365.04, top: 10.7, width: 56.727, height: 78.545 },
+  { name: 'rest', left: 230.15, top: 25.26, width: 423.273, height: 64.364 },
+]
+const W = 652.364
+const H = 120
+---
+
+<span class:list={['logo', { 'logo--dark': dark }, className]} style={`--logo-h:${height}`} role="img" aria-label={label}>
+  {
+    parts.map((p) => (
+      <span
+        class={`logo__part logo__${p.name}`}
+        style={`left:${(p.left / W) * 100}%;top:${(p.top / H) * 100}%;width:${(p.width / W) * 100}%;height:${(p.height / H) * 100}%`}
+      >
+        <img src={`/logo/${p.name}.svg`} alt="" width={p.width} height={p.height} draggable="false" />
+      </span>
+    ))
+  }
+</span>
+
+<style>
+  .logo {
+    position: relative;
+    display: inline-block;
+    aspect-ratio: 652.364 / 120;
+    height: var(--logo-h, 28px);
+  }
+  .logo__part {
+    position: absolute;
+    display: block;
+  }
+  .logo__part img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .logo--dark img {
+    filter: invert(1);
+  }
+</style>
