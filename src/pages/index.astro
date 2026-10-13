@@ -10,6 +10,7 @@ import Journey from '../components/Journey.astro'
 import Noise from '../components/Noise.astro'
 import Parents from '../components/Parents.astro'
 import ProductStory from '../components/ProductStory.astro'
+import { SOCIALS } from '../config'
 
 const title = 'Smetase — study abroad without the guesswork'
 const description =
@@ -40,6 +41,7 @@ const description =
         logo: 'https://smetase.com/favicon.svg',
         email: 'hello@smetase.com',
         description,
+        sameAs: SOCIALS.filter((s) => s.url).map((s) => s.url),
       })}
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

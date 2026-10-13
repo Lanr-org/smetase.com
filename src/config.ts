@@ -7,9 +7,10 @@ export const HELLO_EMAIL = 'hello@smetase.com'
 
 // Social profiles. Icons show now; add each URL when the account exists and the icon becomes a link.
 export const SOCIALS = [
-  { name: 'Instagram', icon: 'instagram', url: '' },
-  { name: 'X', icon: 'x', url: '' },
-  { name: 'TikTok', icon: 'tiktok', url: '' },
+  { name: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/smetase_ai' },
+  { name: 'X', icon: 'x', url: 'https://x.com/Smetase_ai' },
+  { name: 'LinkedIn', icon: 'linkedin', url: 'https://www.linkedin.com/company/smetase_ai/' },
+  { name: 'TikTok', icon: 'tiktok', url: 'https://www.tiktok.com/@smetase_ai' },
   { name: 'YouTube', icon: 'youtube', url: '' },
   { name: 'WhatsApp', icon: 'whatsapp', url: '' },
   { name: 'Telegram', icon: 'telegram', url: TELEGRAM_URL },
