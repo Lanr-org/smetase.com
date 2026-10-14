@@ -11,7 +11,7 @@ import { APP_URL, TELEGRAM_URL } from '../config'
       Your next step is <span class="light">one message away.</span>
     </h2>
     <a class="final__cta display" href={APP_URL} data-bite>
-      <span class="final__cta-text">Start on the web</span>
+      <span class="final__cta-text">Find my programmes</span>
       <span class="final__cta-arrow" aria-hidden="true">↗</span>
     </a>
     {
@@ -21,6 +21,10 @@ import { APP_URL, TELEGRAM_URL } from '../config'
         </a>
       ) : null
     }
+    <p class="final__trust">
+      Free for students. We never sell your data, and only the advisor assigned to you sees your plan.{' '}
+      <a href="/privacy">How we handle your data</a>
+    </p>
   </div>
 </section>
 <div class="curtain" aria-hidden="true" data-curtain></div>
@@ -60,7 +64,7 @@ import { APP_URL, TELEGRAM_URL } from '../config'
     padding: 0.18em 0 0.22em;
     border-top: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
-    font-size: clamp(30px, 7.4vw, 150px);
+    font-size: clamp(28px, 6.4vw, 130px);
     white-space: nowrap;
     text-decoration: none;
     color: inherit;
@@ -77,6 +81,16 @@ import { APP_URL, TELEGRAM_URL } from '../config'
   .final__alt {
     margin-top: 32px;
     color: var(--paper);
+  }
+  .final__trust {
+    margin-top: 40px;
+    max-width: 52ch;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .final__trust a {
+    color: var(--paper);
+    text-underline-offset: 4px;
   }
   .curtain {
     position: fixed;

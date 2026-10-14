@@ -4,7 +4,7 @@ import Footer from '../components/Footer.astro'
 import Nav from '../components/Nav.astro'
 
 interface Props {
-  frontmatter: { title: string; description: string; updated: string; cutout?: string; cutoutAlt?: string }
+  frontmatter: { title: string; description: string; updated?: string; cutout?: string; cutoutAlt?: string }
 }
 const { title, description, updated, cutout, cutoutAlt = '' } = Astro.props.frontmatter
 const pageTitle = `${title} · Smetase`
@@ -34,7 +34,7 @@ const pageTitle = `${title} · Smetase`
     <main class="legal">
       <div class="legal__head">
         <h1 class="legal__title display" data-split>{title}</h1>
-        <p class="legal__updated">Last updated {updated}</p>
+        {updated ? <p class="legal__updated">Last updated {updated}</p> : null}
       </div>
 
       <div class="legal__body">

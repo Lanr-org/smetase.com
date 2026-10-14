@@ -20,10 +20,19 @@ if (!reduceMotion) {
   if (import.meta.env.DEV) Object.assign(window, { __lenis: lenis })
 }
 
-// Same-page anchors go through Lenis so they glide too.
-document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
+// The phone menu (Nav.astro) freezes the page behind it.
+window.addEventListener('smetase:menu', (event) => {
+  const { open } = (event as CustomEvent<{ open: boolean }>).detail
+  if (open) lenis?.stop()
+  else lenis?.start()
+  document.body.style.overflow = open ? 'hidden' : ''
+})
+
+// Same-page anchors go through Lenis so they glide too. "/#how" counts only on the home page.
+document.querySelectorAll<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]').forEach((link) => {
   link.addEventListener('click', (event) => {
-    const target = document.querySelector(link.getAttribute('href') || '')
+    if (link.pathname !== window.location.pathname || !link.hash) return
+    const target = document.querySelector(link.hash)
     if (!target) return
     event.preventDefault()
     if (lenis) lenis.scrollTo(target as HTMLElement, { duration: 1.6 })

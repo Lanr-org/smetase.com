@@ -1,6 +1,6 @@
 // Hermes-style texture: each photo is redrawn as a halftone of its own colours on ink.
-// Hovering (or, on touch screens, scrolling it to the middle) wipes the texture away
-// from the pointer and shows the clear photo underneath.
+// Scrolling a photo to the middle of the screen wipes the texture away and shows the clear
+// photo underneath; with a mouse, hovering does it too, from the pointer.
 import { gsap } from 'gsap'
 
 const INK = '#0a0a0a'
@@ -34,8 +34,10 @@ const drawTexture = (canvas: HTMLCanvasElement, img: HTMLImageElement, mode: Mod
     const scale = Math.max(box.width / img.naturalWidth, box.height / img.naturalHeight)
     const sw = box.width / scale
     const sh = box.height / scale
-    const sx = (img.naturalWidth - sw) / 2
-    const sy = (img.naturalHeight - sh) / 2
+    // Follow the photo's object-position (percentages only; anything else falls back to centre).
+    const [px0, py0] = getComputedStyle(img).objectPosition.split(' ').map((v) => (v.endsWith('%') ? parseFloat(v) / 100 : 0.5))
+    const sx = (img.naturalWidth - sw) * (px0 ?? 0.5)
+    const sy = (img.naturalHeight - sh) * (py0 ?? 0.5)
     sctx.drawImage(img, sx, sy, sw, sh, 0, 0, cols, rows)
   }
   const px = sctx.getImageData(0, 0, cols, rows).data
@@ -126,21 +128,32 @@ export const initTextures = (reduceMotion: boolean) => {
       frame.style.setProperty('--ry', `${event.clientY - box.top}px`)
     }
 
+    // Clear while the photo sits in the middle of the screen or, with a mouse, while hovered.
+    let inView = false
+    let hovered = false
+    const update = () => (inView || hovered ? open() : close())
+
+    frame.style.setProperty('--rx', '50%')
+    frame.style.setProperty('--ry', '50%')
+    new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting
+        update()
+      },
+      { rootMargin: '-35% 0px -35% 0px' },
+    ).observe(frame)
+
     if (hoverable) {
       frame.addEventListener('pointerenter', (event) => {
         place(event)
-        open()
+        hovered = true
+        update()
       })
       frame.addEventListener('pointermove', place)
-      frame.addEventListener('pointerleave', close)
-    } else {
-      // Touch: clear the photo while it sits in the middle of the screen.
-      frame.style.setProperty('--rx', '50%')
-      frame.style.setProperty('--ry', '50%')
-      new IntersectionObserver(
-        ([entry]) => (entry.isIntersecting ? open() : close()),
-        { rootMargin: '-35% 0px -35% 0px' },
-      ).observe(frame)
+      frame.addEventListener('pointerleave', () => {
+        hovered = false
+        update()
+      })
     }
   })
 }

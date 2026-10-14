@@ -1,5 +1,5 @@
 ---
-import { APP_URL, TELEGRAM_URL } from '../config'
+import { APP_URL } from '../config'
 ---
 
 <section class="hero" aria-labelledby="hero-title">
@@ -23,20 +23,13 @@ import { APP_URL, TELEGRAM_URL } from '../config'
       <figure class="hero__thumb tex" data-texture="lines">
         <img src="/images/laptop2.webp" alt="A student researching on a laptop" width="1400" height="933" loading="eager" />
       </figure>
-      <p class="hero__lede">
-        Without the guesswork. Smetase is an advisor you can text. It matches you to real programmes, shows where
-        every fee came from, and brings in a person when it matters.
-      </p>
+      <div class="hero__text">
+        <p class="hero__sub">Find programmes that fit your degree and budget, and know the real cost before you pay.</p>
+        <p class="hero__lede">Free for students. Every fee is checked against the university's own course page.</p>
+      </div>
     </div>
     <div class="hero__ctas" data-hero-fade>
-      <a class="cta cta--block" href={APP_URL}>Start on the web <span class="arrow" aria-hidden="true">↗</span></a>
-      {
-        TELEGRAM_URL ? (
-          <a class="cta" href={TELEGRAM_URL}>
-            Open in Telegram <span class="arrow" aria-hidden="true">↗</span>
-          </a>
-        ) : null
-      }
+      <a class="cta cta--block" href={APP_URL}>Find my programmes <span class="arrow" aria-hidden="true">↗</span></a>
     </div>
   </div>
 </section>
@@ -104,10 +97,19 @@ import { APP_URL, TELEGRAM_URL } from '../config'
     gap: 32px 48px;
     flex-wrap: wrap;
   }
+  .hero__sub {
+    max-width: 24ch;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(20px, 1.9vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
   .hero__lede {
     max-width: 40ch;
-    font-size: clamp(16px, 1.25vw, 19px);
-    color: #3d3d3d;
+    margin-top: 14px;
+    font-size: clamp(15px, 1.1vw, 17px);
+    color: var(--muted);
   }
   .hero__ctas {
     display: flex;

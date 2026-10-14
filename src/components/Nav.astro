@@ -1,6 +1,12 @@
 ---
-import { APP_URL } from '../config'
+import { APP_URL, HELLO_EMAIL } from '../config'
 import Logo from './Logo.astro'
+
+const links = [
+  { href: '/#how', label: 'How it works' },
+  { href: '/#parents', label: 'For parents' },
+  { href: '/partners', label: 'Partners' },
+]
 ---
 
 <header class="nav">
@@ -8,12 +14,31 @@ import Logo from './Logo.astro'
     <Logo dark height="clamp(22px, 2vw, 26px)" />
   </a>
   <nav class="nav__links" aria-label="Main">
-    <a href="#how">How it works</a>
-    <a href="#parents">For parents</a>
-    <a href="#agents">For agents</a>
+    <a href="/#how">How it works</a>
+    <a href="/#parents">For parents</a>
     <a href={APP_URL} class="nav__start">Start <span aria-hidden="true">↗</span></a>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+      <span data-menu-label>Menu</span>
+    </button>
   </nav>
 </header>
+
+<!-- Phone menu. Kept outside the header: the header's blur and slide would trap a fixed child. -->
+<div class="menu" id="menu" hidden data-menu>
+  <nav class="menu__links" aria-label="Menu">
+    {
+      links.map((link) => (
+        <a class="menu__link display" href={link.href}>
+          {link.label}
+        </a>
+      ))
+    }
+    <a class="menu__start display" href={APP_URL}>Find my programmes <span aria-hidden="true">↗</span></a>
+  </nav>
+  <p class="menu__foot">
+    Questions? <a href={`mailto:${HELLO_EMAIL}`}>{HELLO_EMAIL}</a>
+  </p>
+</div>
 
 <style>
   .nav {
@@ -72,9 +97,89 @@ import Logo from './Logo.astro'
   .nav__start::after {
     transform: scaleX(1) !important;
   }
+  .nav__toggle {
+    display: none;
+    padding: 8px 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: 500 15px/1 var(--font-display);
+    letter-spacing: -0.02em;
+    cursor: pointer;
+  }
+
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 96px var(--gutter) 36px;
+    background: var(--paper);
+  }
+  .menu[hidden] {
+    display: none;
+  }
+  .menu__links {
+    display: flex;
+    flex-direction: column;
+  }
+  .menu__link {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(34px, 10vw, 56px);
+    text-decoration: none;
+  }
+  .menu__start {
+    margin-top: 32px;
+    font-size: clamp(24px, 7vw, 40px);
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .menu__foot {
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .menu__foot a {
+    color: var(--ink);
+  }
+  /* While the menu is open the bar stays put and blends into it. */
+  :global(html.menu-open) .nav {
+    background: var(--paper);
+    transform: none;
+  }
+
   @media (max-width: 760px) {
     .nav__links a:not(.nav__start) {
       display: none;
     }
+    .nav__toggle {
+      display: block;
+    }
   }
 </style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]')
+  const menu = document.querySelector<HTMLElement>('[data-menu]')
+  const label = document.querySelector<HTMLElement>('[data-menu-label]')
+
+  if (toggle && menu && label) {
+    const setOpen = (open: boolean) => {
+      menu.hidden = !open
+      toggle.setAttribute('aria-expanded', String(open))
+      label.textContent = open ? 'Close' : 'Menu'
+      document.documentElement.classList.toggle('menu-open', open)
+      // main.ts pauses smooth scrolling while the menu is open.
+      window.dispatchEvent(new CustomEvent('smetase:menu', { detail: { open } }))
+    }
+    toggle.addEventListener('click', () => setOpen(menu.hidden))
+    // Close before the click is handled, so a same-page link can glide once scrolling is back on.
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false), { capture: true }))
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !menu.hidden) setOpen(false)
+    })
+    window.matchMedia('(min-width: 761px)').addEventListener('change', (event) => event.matches && setOpen(false))
+  }
+</script>
