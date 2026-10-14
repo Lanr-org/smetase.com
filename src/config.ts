@@ -1,7 +1,6 @@
-// Where the calls to action go. Set TELEGRAM_URL once the production bot exists;
-// while it is empty the Telegram links are left out of the page.
+// Where the calls to action go. Set TELEGRAM_URL to '' to leave the Telegram links out of the page.
 export const APP_URL = 'https://app.smetase.com'
-export const TELEGRAM_URL = ''
+export const TELEGRAM_URL = 'https://t.me/SmetaseBot'
 export const PARTNERS_EMAIL = 'partners@smetase.com'
 export const HELLO_EMAIL = 'hello@smetase.com'
 
